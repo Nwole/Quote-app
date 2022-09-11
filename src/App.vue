@@ -1,32 +1,37 @@
 <template>
-  <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
+  <v-app>
+    <NewQuote @quoteAdded="newQuote"/>
+    <quotes-gride :myQuotes="quotes" @quoteDeleted="deleteQuote"></quotes-gride>
+      <div class="w-full bg-cyan-200 border rounded-lg text-center text-base mt-20">
+    <p>info: Click on a Quote to delete it</p>
   </div>
+    <v-main>
+      <router-view />
+    </v-main> 
+  </v-app>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import Header from "./components/Header.vue";
+import QuotesGride from "./components/QuotesGride.vue";
+import NewQuote from "./components/NewQuote.vue";
 
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+export default {
+  name: "App",
+  data() {
+    return {
+      quotes: ["just a quote to see something"],
+      maxQuotes: 10,
+    };
+  },
+  methods:{
+    newQuote(quote){
+      this.quotes.push(quote)
+    },
+    deleteQuote(index){
+      this.maxQuotes.splice(index, 1)
+    }
+  },
+  components: { Header, QuotesGride, NewQuote },
+};
+</script>
